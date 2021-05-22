@@ -19,7 +19,7 @@ Subscription* Database_Subscribe(Database* database, char* topic, char* name, vo
 	if (sub)
 	{
 		sub->Name	  = HASH_FUNC((uint8_t*)name, strlen(name));
-		sub->Topic	  = HASH_FUNC((uint8_t*)topic, strlen(name));
+		sub->Topic	  = HASH_FUNC((uint8_t*)topic, strlen(topic));
 		sub->Callback = callback;
 	}
 
