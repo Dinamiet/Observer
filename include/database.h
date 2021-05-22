@@ -19,7 +19,7 @@ typedef struct
 } Database;
 
 void		  Database_Init(Database* database, Subscription* buffer, uint32_t number);
-Subscription* Database_Subscribe(Database* database, char* name, char* topic, void (*callback)(void*));
+Subscription* Database_Subscribe(Database* database, char* topic, char* name, void (*callback)(void*));
 Subscription* Database_FindSubscription(Database* database, char* name);
 void		  Database_Unsubscribe(Database* database, Subscription* subscription);
 void		  Database_Notify(Database* database, char* topic, void* data);
