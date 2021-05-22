@@ -1,0 +1,8 @@
+[submodule "extern/linked_lists"]
+	path = extern/linked_lists
+	url = ../linked_lists.git
+	branch = master
+[submodule "extern/checksum_hash"]
+	path = extern/checksum_hash
+	url = ../checksum_hash.git
+	branch = master
