@@ -13,7 +13,7 @@ void Database_Init(Database* database, Subscription* buffer, uint32_t number)
 	BufferedList_Init(&database->Subscriptions, (Node*)buffer, sizeof(Subscription), number);
 }
 
-Subscription* Database_Subscribe(Database* database, char* topic, char* name, void (*callback)(void*))
+Subscription* Database_Subscribe(Database* database, char* topic, char* name, NotifyCallback callback)
 {
 	Subscription* sub = (Subscription*)BufferedList_LinkTail(&database->Subscriptions);
 	if (sub)
