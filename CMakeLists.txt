@@ -11,12 +11,31 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # Let's nicely support folders in IDEs
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-    # Enable link time optimization if supported by the compiler
-    include(CheckIPOSupported)
-    check_ipo_supported(RESULT IPO_SUPPORTED)
-    if(IPO_SUPPORTED)
-        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-    endif()
+    add_compile_options(
+        "-Wall" # Enable all common warnings
+        "-Wextra" # Enable more warnings
+        "-Wpedantic" # Warn about non-standard code
+        "-Werror" # Warnings are treated as errors
+        "-Wshadow" # Warn about shadow variables
+        "-Wdouble-promotion" # Warn when promoting floats to double
+        "-Wformat=2" # printf and scanf warnings
+        "-Wformat-security" # printf and scanf warnings
+        "-Wformat-truncation" # printf and scanf warnings
+        "-Wundef" # Warn when evaluating not defined flags
+        "-fno-common" # Warn about multiple global variables with same name
+        # "-Wconversion" # Warn about implicit conversions
+        "-Wpadded" # Warn about padded structures
+        "-flto" # Link time optimization
+        "-fno-fat-lto-objects" # Link time optimization
+        "-ffunction-sections" # Link time optimization help
+        "-fdata-sections" # Link time optimization help
+    )
+
+    add_link_options(
+        "-Wl,--gc-sections" # Remove unwanted sections
+        "-flto" # Link time optimization
+        "-fno-fat-lto-objects" # Link time optimization
+    )
 
     include(CTest)
 
@@ -27,24 +46,6 @@ endif()
 add_library(
     ${PROJECT_NAME}
     STATIC
-)
-
-target_compile_options(
-    ${PROJECT_NAME}
-    PRIVATE
-        "-Wall"
-        "-Wextra"
-        "-Wpedantic"
-        "-Werror"
-        "-Wshadow"
-        "-Wdouble-promotion"
-        "-Wformat=2"
-        "-Wformat-security"
-        "-Wformat-truncation"
-        "-Wundef"
-        "-fno-common"
-        # "-Wconversion"
-        "-Wpadded"
 )
 
 target_include_directories(
