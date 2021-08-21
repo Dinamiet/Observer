@@ -1,17 +1,20 @@
 cmake_minimum_required(VERSION 3.20.0)
 
+# Let's nicely support folders in IDEs
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 project(
     Database
 )
 
-if (NOT TARGET ${PROJECT_NAME})
+add_library(
+    ${PROJECT_NAME}
+    STATIC
+)
 
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-
-    # Let's nicely support folders in IDEs
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-    add_compile_options(
+target_compile_options(
+    ${PROJECT_NAME}
+    PRIVATE
         "-Wall" # Enable all common warnings
         "-Wextra" # Enable more warnings
         "-Wpedantic" # Warn about non-standard code
@@ -23,29 +26,20 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         "-Wformat-truncation" # printf and scanf warnings
         "-Wundef" # Warn when evaluating not defined flags
         "-fno-common" # Warn about multiple global variables with same name
-        # "-Wconversion" # Warn about implicit conversions
+        "-Wconversion" # Warn about implicit conversions
         "-Wpadded" # Warn about padded structures
         "-flto" # Link time optimization
         "-fno-fat-lto-objects" # Link time optimization
         "-ffunction-sections" # Link time optimization help
         "-fdata-sections" # Link time optimization help
-    )
+)
 
-    add_link_options(
+target_link_options(
+    ${PROJECT_NAME}
+    PRIVATE
         "-Wl,--gc-sections" # Remove unwanted sections
         "-flto" # Link time optimization
         "-fno-fat-lto-objects" # Link time optimization
-    )
-
-    include(CTest)
-
-    add_subdirectory(app)
-
-endif()
-
-add_library(
-    ${PROJECT_NAME}
-    STATIC
 )
 
 target_include_directories(
@@ -67,5 +61,3 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Buffers)
 
 add_subdirectory(lib/ChecksumHash)
 target_link_libraries(${PROJECT_NAME} PRIVATE ChecksumHash)
-
-endif()
