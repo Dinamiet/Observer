@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-void Database_Init(Database* database, Subscription* buffer, uint32_t length)
+void Database_Init(Database* database, Subscription* buffer, size_t length)
 {
 	BufferedList_Init(&database->Subscriptions, (Node*)buffer, sizeof(Subscription), length);
 }

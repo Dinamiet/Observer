@@ -4,6 +4,7 @@
 #include "bufferedlist.h"
 
 #include <stdint.h>
+#include <stddef.h>
 
 typedef void (*NotifyCallback)(void*);
 
@@ -20,7 +21,7 @@ typedef struct
 	BufferedList Subscriptions;
 } Database;
 
-void		  Database_Init(Database* database, Subscription* buffer, uint32_t length);
+void		  Database_Init(Database* database, Subscription* buffer, size_t length);
 Subscription* Database_Subscribe(Database* database, char* topic, char* name, NotifyCallback callback);
 Subscription* Database_FindSubscription(Database* database, char* name);
 void		  Database_Unsubscribe(Database* database, Subscription* subscription);
