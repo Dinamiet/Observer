@@ -8,9 +8,9 @@
 
 #include <string.h>
 
-void Database_Init(Database* database, Subscription* buffer, uint32_t number)
+void Database_Init(Database* database, Subscription* buffer, uint32_t length)
 {
-	BufferedList_Init(&database->Subscriptions, (Node*)buffer, sizeof(Subscription), number);
+	BufferedList_Init(&database->Subscriptions, (Node*)buffer, sizeof(Subscription), length);
 }
 
 Subscription* Database_Subscribe(Database* database, char* topic, char* name, NotifyCallback callback)
@@ -18,8 +18,8 @@ Subscription* Database_Subscribe(Database* database, char* topic, char* name, No
 	Subscription* sub = (Subscription*)BufferedList_LinkTail(&database->Subscriptions);
 	if (sub)
 	{
-		sub->Name	  = HASH_FUNC((uint8_t*)name, strlen(name));
-		sub->Topic	  = HASH_FUNC((uint8_t*)topic, strlen(topic));
+		sub->Name	  = HASH_FUNC(name, strlen(name));
+		sub->Topic	  = HASH_FUNC(topic, strlen(topic));
 		sub->Callback = callback;
 	}
 
@@ -29,7 +29,7 @@ Subscription* Database_Subscribe(Database* database, char* topic, char* name, No
 Subscription* Database_FindSubscription(Database* database, char* name)
 {
 	Subscription* sub	  = (Subscription*)database->Subscriptions.Used.Head;
-	uint32_t	  subName = HASH_FUNC((uint8_t*)name, strlen(name));
+	uint32_t	  subName = HASH_FUNC(name, strlen(name));
 	if (sub == NULL)
 		return NULL;
 	do {
@@ -48,7 +48,7 @@ void Database_Unsubscribe(Database* database, Subscription* subscription) { Buff
 void Database_Notify(Database* database, char* topic, void* data)
 {
 	Subscription* sub		= (Subscription*)database->Subscriptions.Used.Head;
-	uint32_t	  topicName = HASH_FUNC((uint8_t*)topic, strlen(topic));
+	uint32_t	  topicName = HASH_FUNC(topic, strlen(topic));
 	if (sub == NULL)
 		return;
 	do {
