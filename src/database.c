@@ -8,9 +8,9 @@
 
 #include <string.h>
 
-void Database_Init(Database* database, Subscription* buffer, size_t length)
+void Database_Init(Database* database, Subscription* buffer, size_t num)
 {
-	BufferedList_Init(&database->Subscriptions, (Node*)buffer, sizeof(Subscription), length);
+	BufferedList_Init(&database->Subscriptions, (Node*)buffer, sizeof(Subscription), num);
 }
 
 Subscription* Database_Subscribe(Database* database, char* topic, char* name, NotifyCallback callback)
