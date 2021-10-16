@@ -18,7 +18,7 @@ Subscription* Database_Subscribe(Database* database, char* topic, char* name, No
 	Subscription* sub = (Subscription*)BufferedList_LinkTail(&database->Subscriptions);
 	if (sub)
 	{
-		sub->Name	  = HASH_FUNC(name, strlen(name));
+		sub->Name	  = name ? HASH_FUNC(name, strlen(name)) : 0;
 		sub->Topic	  = HASH_FUNC(topic, strlen(topic));
 		sub->Callback = callback;
 	}
@@ -29,7 +29,7 @@ Subscription* Database_Subscribe(Database* database, char* topic, char* name, No
 Subscription* Database_FindSubscription(Database* database, char* name)
 {
 	Subscription* sub	  = (Subscription*)database->Subscriptions.Used.Head;
-	uint32_t	  subName = HASH_FUNC(name, strlen(name));
+	uint32_t	  subName = name ? HASH_FUNC(name, strlen(name)) : 0;
 	if (sub == NULL)
 		return NULL;
 	do {
