@@ -1,10 +1,10 @@
 #ifndef __DATABASE_H__
 #define __DATABASE_H__
 
-#include "bufferedlist.h"
+#include "linkedlist.h"
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 typedef void (*NotifyCallback)(void*);
 
@@ -18,11 +18,11 @@ typedef struct
 
 typedef struct
 {
-	BufferedList Subscriptions;
+	LinkedList Subscriptions;
 } Database;
 
-void		  Database_Init(Database* database, Subscription* buffer, size_t length);
-Subscription* Database_Subscribe(Database* database, char* topic, char* name, NotifyCallback callback);
+void		  Database_Init(Database* database);
+void		  Database_Subscribe(Database* database, Subscription* subscription, char* topic, char* name, NotifyCallback callback);
 Subscription* Database_FindSubscription(Database* database, char* name);
 void		  Database_Unsubscribe(Database* database, Subscription* subscription);
 void		  Database_Notify(Database* database, char* topic, void* data);
