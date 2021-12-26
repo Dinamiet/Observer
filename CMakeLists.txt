@@ -34,6 +34,7 @@ target_compile_options(
         "-fno-fat-lto-objects" # Link time optimization
         "-ffunction-sections" # Link time optimization help
         "-fdata-sections" # Link time optimization help
+        "-fanalyzer" # Static analysis of program flow
 )
 
 target_link_options(
