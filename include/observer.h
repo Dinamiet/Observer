@@ -39,7 +39,7 @@ typedef struct _Observer_
  * Observer initialization
  * \param obs Observer to initialize
  */
-void                  Observer_Init(Observer* obs);
+void Observer_Init(Observer* obs);
 
 /**
  * Subscribe to a specific topic on the observer
@@ -65,7 +65,7 @@ ObserverSubscription* Observer_Unsubscribe(Observer* obs, ObserverSubscription* 
  * \param sub Subscription to search for in observer
  * \return True when subscription is registered with observer, False otherwise
  */
-bool                  Observer_HasSubscription(const Observer* obs, const ObserverSubscription* sub);
+bool Observer_HasSubscription(const Observer* obs, const ObserverSubscription* sub);
 
 /**
  * Publish data to a specific topic. All active subscription for the topic will be notified with the data
@@ -73,6 +73,6 @@ bool                  Observer_HasSubscription(const Observer* obs, const Observ
  * \param topic The topic to which data is published
  * \param data The data to notify subscribers about
  */
-void                  Observer_Publish(const Observer* obs, const size_t topic, const void* data);
+void Observer_Publish(const Observer* obs, const size_t topic, const void* data);
 
 #endif
