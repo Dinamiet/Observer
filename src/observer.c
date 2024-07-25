@@ -10,14 +10,14 @@ ObserverSubscription* Observer_Subscribe(Observer* obs, ObserverSubscription* su
 	sub->TopicID = topic;
 	sub->Notify  = notify;
 
-	return LinkedList_AddTail(&obs->Subscriptions, sub);
+	return LinkedList_AddEnd(&obs->Subscriptions, sub);
 }
 
-ObserverSubscription* Observer_Unsubscribe(Observer* obs, ObserverSubscription* sub) { return LinkedList_RemoveNode(&obs->Subscriptions, sub); }
+ObserverSubscription* Observer_Unsubscribe(Observer* obs, ObserverSubscription* sub) { return LinkedList_Remove(&obs->Subscriptions, sub); }
 
 bool Observer_HasSubscription(const Observer* obs, const ObserverSubscription* sub)
 {
-	ObserverSubscription* obsSub = LinkedList_Head(&obs->Subscriptions);
+	ObserverSubscription* obsSub = LinkedList_First(&obs->Subscriptions);
 	if (!obsSub || !sub)
 		return false;
 
@@ -26,14 +26,14 @@ bool Observer_HasSubscription(const Observer* obs, const ObserverSubscription* s
 			return true;
 
 		obsSub = LinkedList_Next(obsSub);
-	} while (obsSub != LinkedList_Head(&obs->Subscriptions));
+	} while (obsSub != LinkedList_First(&obs->Subscriptions));
 
 	return false;
 }
 
 void Observer_Publish(const Observer* obs, const size_t topic, const void* data)
 {
-	ObserverSubscription* sub = LinkedList_Head(&obs->Subscriptions);
+	ObserverSubscription* sub = LinkedList_First(&obs->Subscriptions);
 	if (!sub)
 		return;
 
@@ -42,5 +42,5 @@ void Observer_Publish(const Observer* obs, const size_t topic, const void* data)
 			sub->Notify(data);
 
 		sub = LinkedList_Next(sub);
-	} while (sub != LinkedList_Head(&obs->Subscriptions));
+	} while (sub != LinkedList_First(&obs->Subscriptions));
 }
