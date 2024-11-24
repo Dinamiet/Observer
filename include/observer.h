@@ -15,16 +15,16 @@
  * Function template which will be used to notify subscribers of information on their topic
  * \param data The data which was published
  */
-typedef void (*Observer_Notify)(const void* data);
+typedef void (*Observer_NotifyHandler)(const void* data);
 
 /**
  * Subscription information storage
  */
 typedef struct _ObserverSubscription_
 {
-	Node            Node;    /* Storage for housekeeping of all subscriptions */
-	size_t          TopicID; /* Topic for which the subscription is waiting */
-	Observer_Notify Notify;  /* Notification channel */
+	Node                   Node;    /* Storage for housekeeping of all subscriptions */
+	size_t                 TopicID; /* Topic for which the subscription is waiting */
+	Observer_NotifyHandler Handler; /* Notification channel */
 } ObserverSubscription;
 
 /**
@@ -46,10 +46,10 @@ void Observer_Init(Observer* obs);
  * \param obs Observer to which the subscription will be registered
  * \param sub Subscription storage where relative subscription information will be stored
  * \param topic The topic of interest
- * \param notify The notification function when data becomes available on topic
+ * \param notify_handler The notification function when data becomes available on topic
  * \return Newly added subscription (same as sub) if successful, NULL otherwise
  */
-ObserverSubscription* Observer_Subscribe(Observer* obs, ObserverSubscription* sub, const size_t topic, const Observer_Notify notify);
+ObserverSubscription* Observer_Subscribe(Observer* obs, ObserverSubscription* sub, const size_t topic, const Observer_NotifyHandler notify_handler);
 
 /**
  * Unsubscribe or remove subscription from observer list

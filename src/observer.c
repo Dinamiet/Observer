@@ -9,15 +9,15 @@ void Observer_Init(Observer* obs)
 	LinkedList_Init(&obs->Subscriptions);
 }
 
-ObserverSubscription* Observer_Subscribe(Observer* obs, ObserverSubscription* sub, const size_t topic, const Observer_Notify notify)
+ObserverSubscription* Observer_Subscribe(Observer* obs, ObserverSubscription* sub, const size_t topic, const Observer_NotifyHandler notify_handler)
 {
 	assert(obs != NULL);
 
-	if (!notify || !sub)
+	if (!notify_handler || !sub)
 		return NULL;
 
 	sub->TopicID = topic;
-	sub->Notify  = notify;
+	sub->Handler = notify_handler;
 
 	return LinkedList_AddEnd(&obs->Subscriptions, sub);
 }
@@ -57,7 +57,7 @@ void Observer_Publish(const Observer* obs, const size_t topic, const void* data)
 
 	do {
 		if (topic == sub->TopicID)
-			sub->Notify(data);
+			sub->Handler(data);
 
 		sub = LinkedList_Next(sub);
 	} while (sub != LinkedList_First(&obs->Subscriptions));
