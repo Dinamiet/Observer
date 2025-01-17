@@ -6,9 +6,9 @@ set(FETCHCONTENT_QUIET OFF)
 FetchContent_Declare(
 	Buffers
 	GIT_REPOSITORY
-		git@bitbucket.org:dinamiet/buffers.git
+		git@github.com:Dinamiet/Buffers.git
 	GIT_TAG
-		development
+		main
 	SOURCE_DIR
 		${CMAKE_SOURCE_DIR}/lib/Buffers
 )
